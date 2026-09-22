@@ -1,0 +1,51 @@
+schema: ./graphql/schema.gql
+documents: ./src/**/*{query,mutation,fragment}!(*.generated).ts
+generates:
+  src/types/__graphql/type-policy-helpers.generated.d.ts:
+    plugins:
+      - typescript-apollo-client-helpers
+  src/types/__graphql/types.generated.d.ts:
+    plugins:
+      - typescript
+    config:
+      scalars:
+        Date: string
+        DateTime: string
+        Long: number
+        ObjectID: string
+        URL: string
+      namingConvention:
+        enumValues: keep
+  src/types/__graphql/enums.generated.d.ts:
+    plugins:
+      - typescript
+    config:
+      onlyEnums: true
+      namingConvention:
+        enumValues: keep
+  src/:
+    preset: near-operation-file
+    presetConfig:
+      baseTypesPath: types/__graphql/types.generated.d.ts
+      folder: __graphql
+      extension: .generated.d.ts
+    plugins:
+      - typescript-operations
+    config:
+      scalars:
+        Date: string
+        DateTime: string
+        Long: number
+        ObjectID: string
+        URL: string
+  src/lib/apollo-client/__graphql/possible-types.generated.ts:
+    plugins:
+      - fragment-matcher
+    config:
+      apolloClientVersion: 3
+      federation: true
+  test/unit/utils/introspection.json:
+    plugins:
+      - introspection
+    config:
+      minify: true

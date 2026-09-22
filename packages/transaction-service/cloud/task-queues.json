@@ -1,0 +1,6 @@
+{
+  "transaction_service_transaction_initiated_task": {
+    "account_provider": "core",
+    "name": "transaction-service-transaction-initiated-task"
+  }
+}

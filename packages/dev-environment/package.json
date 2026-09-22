@@ -1,0 +1,26 @@
+{
+  "name": "neo-school-dev-environment",
+  "version": "1.0.0",
+  "author": "Neo Financial Engineering <engineering@neofinancial.com>",
+  "license": "UNLICENSED",
+  "scripts": {
+    "start": "npm run generate:init-scripts && docker-compose pull && docker-compose up",
+    "start:background": ";docker-compose pull ;docker-compose up -d",
+    "stop": "docker-compose down",
+    "stop:clean": "docker-compose down -v",
+    "database:migration": "scripts/database-migration.sh",
+    "init": "ts-node scripts/init.ts",
+    "generate:init-scripts": "node scripts/generate-init-scripts.js",
+    "logs:mongodb": "docker logs mongodb",
+    "mongo": "docker exec -it mongodb mongo",
+    "pull": "docker-compose pull"
+  },
+  "dependencies": {
+    "@aws-sdk/client-sns": "^3.481.0",
+    "@aws-sdk/client-sqs": "^3.481.0",
+    "chalk": "^4.1.2"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1"
+  }
+}

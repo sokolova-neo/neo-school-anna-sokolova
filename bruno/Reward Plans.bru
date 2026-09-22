@@ -1,0 +1,47 @@
+meta {
+  name: Reward Plans
+  type: graphql
+  seq: 6
+}
+
+post {
+  url: {{url}}
+  body: graphql
+  auth: none
+}
+
+body:graphql {
+  query RewardPlans($input: RewardPlanRelativeQueryInput!) {
+    rewardPlans(input: $input) {
+      results {
+        id
+        name
+        rewardLevel
+        benefits {
+          category
+          rewardBoost
+        }
+      }
+      hasNextPage
+      primaryCursor {
+        cursor
+      }
+      secondaryCursor {
+        cursor
+      }
+    }
+  }
+  
+}
+
+body:graphql:vars {
+  {
+    "input": {
+      "primaryCursor" : {
+        "field": "_id",
+        "sort": "ASC",
+        "type": "OBJECT_ID"
+      }
+    }
+  }
+}

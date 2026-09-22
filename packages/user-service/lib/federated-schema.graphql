@@ -1,0 +1,172 @@
+directive @key(fields: _FieldSet!, resolvable: Boolean = true) on OBJECT | INTERFACE
+
+directive @requires(fields: _FieldSet!) on FIELD_DEFINITION
+
+directive @provides(fields: _FieldSet!) on FIELD_DEFINITION
+
+directive @external(reason: String) on OBJECT | FIELD_DEFINITION
+
+directive @tag(name: String!) on FIELD_DEFINITION | OBJECT | INTERFACE | UNION | ARGUMENT_DEFINITION | SCALAR | ENUM | ENUM_VALUE | INPUT_OBJECT | INPUT_FIELD_DEFINITION
+
+directive @extends on OBJECT | INTERFACE
+
+"""
+A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar Date
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
+"""BSON Object ID"""
+scalar ObjectID
+
+"""Long integer within JavaScript safe limits (2^53 - 1)"""
+scalar Long
+
+type User {
+  id: ObjectID!
+  email: String!
+  phone: String!
+  firstName: String!
+  lastName: String!
+  preferredName: String
+  province: Province!
+  dateOfBirth: Date!
+  status: UserStatus!
+}
+
+enum Province {
+  AB
+  BC
+  MB
+  NB
+  NL
+  NT
+  NS
+  NU
+  ON
+  PE
+  QC
+  SK
+  YT
+}
+
+enum UserStatus {
+  ACTIVE
+  INACTIVE
+  FROZEN
+  PENDING
+}
+
+input UpdateUserDetailsInput {
+  userId: ObjectID!
+  firstName: String
+  lastName: String
+  preferredName: String
+  province: Province
+}
+
+input UpdateUserContactInput {
+  userId: ObjectID!
+  phone: String
+  email: String
+}
+
+type UpdateUserDetailsResponse {
+  user: User!
+}
+
+type UpdateUserContactResponse {
+  user: User!
+}
+
+type Query {
+  _entities(representations: [_Any!]!): [_Entity]!
+  _service: _Service!
+  user(id: ObjectID!): User!
+  users(input: UserRelativeQueryInput!): UserList!
+}
+
+enum UserRelativeQueryValueType {
+  STRING
+  NUMBER
+  DATE
+  OBJECT_ID
+  BOOLEAN
+  NULL
+}
+
+enum UserRelativeQuerySortDirection {
+  ASC
+  DESC
+}
+
+enum UserRelativeQueryFilterOperator {
+  EQ
+  NE
+  LT
+  LTE
+  IN
+  NIN
+  GT
+  GTE
+}
+
+input UserRelativeQueryFilterInput {
+  field: String!
+  type: UserRelativeQueryValueType!
+  value: String
+  values: [String!]
+  operator: UserRelativeQueryFilterOperator!
+}
+
+input UserRelativeQuerySortInput {
+  field: String!
+  direction: UserRelativeQuerySortDirection!
+}
+
+input UserRelativeQueryCursorInput {
+  field: String!
+  type: UserRelativeQueryValueType!
+  sort: UserRelativeQuerySortDirection!
+  cursor: String
+}
+
+input UserRelativeQueryInput {
+  filter: [UserRelativeQueryFilterInput!]
+  primaryCursor: UserRelativeQueryCursorInput!
+  secondaryCursor: UserRelativeQueryCursorInput
+  limit: Int
+}
+
+type UserRelativeQueryCursor {
+  field: String!
+  type: UserRelativeQueryValueType!
+  sort: UserRelativeQuerySortDirection!
+  cursor: String
+}
+
+type UserList {
+  results: [User!]!
+  hasNextPage: Boolean!
+  primaryCursor: UserRelativeQueryCursor
+  secondaryCursor: UserRelativeQueryCursor
+}
+
+scalar _FieldSet
+
+scalar _Any
+
+type _Service {
+  sdl: String
+}
+
+union _Entity = User
+
+type Mutation {
+  updateUserDetails(input: UpdateUserDetailsInput!): UpdateUserDetailsResponse!
+  updateUserContact(input: UpdateUserContactInput!): UpdateUserContactResponse!
+}

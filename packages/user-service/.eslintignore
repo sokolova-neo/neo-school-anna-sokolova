@@ -1,0 +1,17 @@
+src/configuration/dependency-registries/**/*
+src/application/consumers/index.ts
+src/application/api/types/schema.d.ts
+scripts/generate-schema.ts
+
+build
+coverage
+
+neo-framework.config.ts
+*.config.js
+config*.js
+.eslintrc.js
+
+node_modules
+*.config.js
+config*.js
+.eslintrc.js

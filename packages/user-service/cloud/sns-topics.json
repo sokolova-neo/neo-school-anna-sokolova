@@ -1,0 +1,12 @@
+{
+  "user_service_user_replication_event": {
+    "account_provider": "core",
+    "alert_slack_channel": "alerts",
+    "alert_slack_channel_non_prod": "alerts-test",
+    "name": "user-service-user-replication-event",
+    "fifo_configuration": {
+      "enabled": true,
+      "content_based_deduplication_enabled": false
+    }
+  }
+}

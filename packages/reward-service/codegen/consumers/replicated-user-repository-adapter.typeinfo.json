@@ -1,0 +1,25 @@
+[
+  {
+    "key": "data",
+    "type": [
+      {
+        "key": "id",
+        "type": "string",
+        "isOptional": false
+      },
+      {
+        "key": "province",
+        "type": "AB | BC | MB | NB | NL | NT | NS | NU | ON | PE | QC | SK | YT",
+        "isEnum": true,
+        "isOptional": false
+      },
+      {
+        "key": "replicationVersion",
+        "type": "number",
+        "isOptional": false
+      }
+    ],
+    "isArray": false,
+    "isOptional": false
+  }
+]

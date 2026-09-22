@@ -1,0 +1,134 @@
+directive @key(fields: _FieldSet!, resolvable: Boolean = true) on OBJECT | INTERFACE
+
+directive @requires(fields: _FieldSet!) on FIELD_DEFINITION
+
+directive @provides(fields: _FieldSet!) on FIELD_DEFINITION
+
+directive @external(reason: String) on OBJECT | FIELD_DEFINITION
+
+directive @tag(name: String!) on FIELD_DEFINITION | OBJECT | INTERFACE | UNION | ARGUMENT_DEFINITION | SCALAR | ENUM | ENUM_VALUE | INPUT_OBJECT | INPUT_FIELD_DEFINITION
+
+directive @extends on OBJECT | INTERFACE
+
+"""
+A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar Date
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
+"""BSON Object ID"""
+scalar ObjectID
+
+"""Long integer within JavaScript safe limits (2^53 - 1)"""
+scalar Long
+
+type Transaction {
+  id: ObjectID!
+  amountCents: Long!
+  transactionDate: DateTime!
+  status: TransactionStatus!
+  category: TransactionCategory!
+}
+
+enum TransactionStatus {
+  SUCCESS
+  PENDING
+  FAILED
+}
+
+enum TransactionCategory {
+  GROCERY
+  ENTERTAINMENT
+  TRAVEL
+  FOOD
+}
+
+enum TransactionRelativeQueryValueType {
+  STRING
+  NUMBER
+  DATE
+  OBJECT_ID
+  BOOLEAN
+  NULL
+}
+
+enum TransactionRelativeQuerySortDirection {
+  ASC
+  DESC
+}
+
+enum TransactionRelativeQueryFilterOperator {
+  EQ
+  NE
+  LT
+  LTE
+  IN
+  NIN
+  GT
+  GTE
+}
+
+input TransactionRelativeQueryFilterInput {
+  field: String!
+  type: TransactionRelativeQueryValueType!
+  value: String
+  values: [String!]
+  operator: TransactionRelativeQueryFilterOperator!
+}
+
+input TransactionRelativeQuerySortInput {
+  field: String!
+  direction: TransactionRelativeQuerySortDirection!
+}
+
+input TransactionRelativeQueryCursorInput {
+  field: String!
+  type: TransactionRelativeQueryValueType!
+  sort: TransactionRelativeQuerySortDirection!
+  cursor: String
+}
+
+input TransactionRelativeQueryInput {
+  filter: [TransactionRelativeQueryFilterInput!]
+  primaryCursor: TransactionRelativeQueryCursorInput!
+  secondaryCursor: TransactionRelativeQueryCursorInput
+  limit: Int
+}
+
+type TransactionRelativeQueryCursor {
+  field: String!
+  type: TransactionRelativeQueryValueType!
+  sort: TransactionRelativeQuerySortDirection!
+  cursor: String
+}
+
+type TransactionList {
+  results: [Transaction!]!
+  hasNextPage: Boolean!
+  primaryCursor: TransactionRelativeQueryCursor!
+  secondaryCursor: TransactionRelativeQueryCursor
+}
+
+scalar _FieldSet
+
+scalar _Any
+
+type _Service {
+  sdl: String
+}
+
+union _Entity = User
+
+type Query {
+  _entities(representations: [_Any!]!): [_Entity]!
+  _service: _Service!
+}
+
+type User {
+  id: ObjectID!
+  transactions(input: TransactionRelativeQueryInput!): TransactionList!
+}

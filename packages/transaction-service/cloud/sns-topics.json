@@ -1,0 +1,8 @@
+{
+  "transaction_service_transaction_created_event": {
+    "account_provider": "core",
+    "alert_slack_channel": "alerts",
+    "alert_slack_channel_non_prod": "alerts-test",
+    "name": "transaction-service-transaction-created-event"
+  }
+}

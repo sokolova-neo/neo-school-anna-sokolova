@@ -1,0 +1,8 @@
+/lib/federated-schema.graphql linguist-generated=true
+/lib/schema.graphql linguist-generated=true
+/src/application/api/types/schema.d.ts linguist-generated=true
+/src/configuration/**/*.ts linguist-generated=true
+/src/application/**/index.ts linguist-generated=true
+/src/lib/*tokens.ts linguist-generated=true
+/src/lib/string-inject.ts linguist-generated=true
+

@@ -1,0 +1,8 @@
+#!/bin/bash
+
+if [ -f ./node_modules/.bin/husky ]
+then
+  husky install
+else
+  echo "Husky not installed. Skipping Install"
+fi

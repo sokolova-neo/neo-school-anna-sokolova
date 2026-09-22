@@ -1,0 +1,15 @@
+{
+  "extends": "@tsconfig/node16",
+  "compilerOptions": {
+    "allowSyntheticDefaultImports": true,
+    "useUnknownInCatchVariables": false,
+    "sourceMap": true,
+    "outDir": "build",
+    "baseUrl": ".",
+    "typeRoots": ["./src/types", "./node_modules/@types"],
+    "paths": {
+      "*": ["*", "node_modules/*", "src/*"]
+    }
+  },
+  "include": ["src/**/*"]
+}

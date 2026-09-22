@@ -1,0 +1,29 @@
+meta {
+  name: Update user details
+  type: graphql
+  seq: 3
+}
+
+post {
+  url: {{url}}
+  body: graphql
+  auth: none
+}
+
+body:graphql {
+  mutation UpdateUserDetails($input: UpdateUserDetailsInput!) {
+    updateUserDetails(input: $input) {
+      user {
+        id
+      }
+    }
+  }
+}
+
+body:graphql:vars {
+  {
+    "input": {
+      "userId": ""
+    }
+  }
+}

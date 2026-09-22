@@ -1,0 +1,32 @@
+[
+  {
+    "key": "externalId",
+    "type": "string",
+    "isOptional": false
+  },
+  {
+    "key": "userId",
+    "type": "string",
+    "isOptional": false
+  },
+  {
+    "key": "amountCents",
+    "type": "number",
+    "isOptional": false
+  },
+  {
+    "key": "transactionDate",
+    "type": "string",
+    "isOptional": false
+  },
+  {
+    "key": "status",
+    "type": "string",
+    "isOptional": false
+  },
+  {
+    "key": "category",
+    "type": "string",
+    "isOptional": false
+  }
+]

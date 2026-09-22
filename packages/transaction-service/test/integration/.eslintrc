@@ -1,0 +1,11 @@
+{
+  "overrides": [
+    {
+      "files": ["**/*.steps.ts"],
+      "rules": {
+        "jest/no-done-callback": "off",
+        "jest/no-standalone-expect": "off"
+      }
+    }
+  ]
+}

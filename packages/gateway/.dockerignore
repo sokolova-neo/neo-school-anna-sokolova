@@ -1,0 +1,12 @@
+node_modules
+src
+lib
+scripts
+test
+coverage
+
+jest.config.js
+
+*.log
+.*
+!.npmrc

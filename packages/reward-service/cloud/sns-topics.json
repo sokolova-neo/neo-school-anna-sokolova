@@ -1,0 +1,12 @@
+{
+  "reward_service_reward_plan_replication_event": {
+    "account_provider": "core",
+    "alert_slack_channel": "alerts",
+    "alert_slack_channel_non_prod": "alerts-test",
+    "name": "reward-service-reward-plan-replication-event",
+    "fifo_configuration": {
+      "enabled": true,
+      "content_based_deduplication_enabled": false
+    }
+  }
+}

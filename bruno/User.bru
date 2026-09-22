@@ -1,0 +1,33 @@
+meta {
+  name: User
+  type: graphql
+  seq: 4
+}
+
+post {
+  url: {{url}}
+  body: graphql
+  auth: none
+}
+
+body:graphql {
+  query User($userId: ObjectID!) {
+    user(id: $userId) {
+      id
+      email
+      phone
+      firstName
+      lastName
+      preferredName
+      province
+      dateOfBirth
+      status
+    }
+  }
+}
+
+body:graphql:vars {
+  {
+    "userId": ""
+  }
+}

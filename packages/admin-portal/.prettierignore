@@ -1,0 +1,9 @@
+node_modules
+dist
+.next
+tsconfig.tsbuildinfo
+next-env.d.ts
+*.generated.d.ts
+__codegen
+
+possible-types.generated.ts

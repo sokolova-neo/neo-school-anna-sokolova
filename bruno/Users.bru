@@ -1,0 +1,48 @@
+meta {
+  name: Users
+  type: graphql
+  seq: 5
+}
+
+post {
+  url: {{url}}
+  body: graphql
+  auth: none
+}
+
+body:graphql {
+  query Users($input: UserRelativeQueryInput!) {
+    users(input: $input) {
+      results {
+        id
+        email
+        phone
+        firstName
+        lastName
+        preferredName
+        province
+        dateOfBirth
+        status
+      }
+      hasNextPage
+      primaryCursor {
+        cursor
+      }
+      secondaryCursor {
+        cursor
+      }
+    }
+  }
+}
+
+body:graphql:vars {
+  {
+    "input": {
+      "primaryCursor" : {
+        "field": "_id",
+        "sort": "ASC",
+        "type": "OBJECT_ID"
+      }
+    }
+  }
+}

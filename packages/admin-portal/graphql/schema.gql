@@ -1,0 +1,322 @@
+scalar Date
+
+scalar DateTime
+
+scalar Long
+
+type Mutation {
+  updateUserContact(input: UpdateUserContactInput!): UpdateUserContactResponse!
+  updateUserDetails(input: UpdateUserDetailsInput!): UpdateUserDetailsResponse!
+}
+
+scalar ObjectID
+
+type PlanBenefit {
+  category: PlanBenefitTransactionCategory!
+  rewardBoost: Float!
+}
+
+enum PlanBenefitTransactionCategory {
+  ENTERTAINMENT
+  FOOD
+  GROCERY
+  TRAVEL
+}
+
+enum Province {
+  AB
+  BC
+  MB
+  NB
+  NL
+  NS
+  NT
+  NU
+  ON
+  PE
+  QC
+  SK
+  YT
+}
+
+type Query {
+  rewardPlans(input: RewardPlanRelativeQueryInput!): RewardPlanList!
+  user(id: ObjectID!): User!
+  users(input: UserRelativeQueryInput!): UserList!
+}
+
+enum RewardLevel {
+  BRONZE
+  DIAMOND
+  GOLD
+  PLATINUM
+  SILVER
+}
+
+type RewardPlan {
+  benefits: [PlanBenefit!]!
+  id: ObjectID!
+  name: String!
+  rewardLevel: RewardLevel!
+}
+
+type RewardPlanList {
+  hasNextPage: Boolean!
+  primaryCursor: RewardPlanRelativeQueryCursor
+  results: [RewardPlan!]!
+  secondaryCursor: RewardPlanRelativeQueryCursor
+}
+
+type RewardPlanRelativeQueryCursor {
+  cursor: String
+  field: String!
+  sort: RewardPlanRelativeQuerySortDirection!
+  type: RewardPlanRelativeQueryValueType!
+}
+
+input RewardPlanRelativeQueryCursorInput {
+  cursor: String
+  field: String!
+  sort: RewardPlanRelativeQuerySortDirection!
+  type: RewardPlanRelativeQueryValueType!
+}
+
+input RewardPlanRelativeQueryFilterInput {
+  field: String!
+  operator: RewardPlanRelativeQueryFilterOperator!
+  type: RewardPlanRelativeQueryValueType!
+  value: String
+  values: [String!]
+}
+
+enum RewardPlanRelativeQueryFilterOperator {
+  EQ
+  GT
+  GTE
+  IN
+  LT
+  LTE
+  NE
+  NIN
+}
+
+input RewardPlanRelativeQueryInput {
+  filter: [RewardPlanRelativeQueryFilterInput!]
+  limit: Int
+  primaryCursor: RewardPlanRelativeQueryCursorInput!
+  secondaryCursor: RewardPlanRelativeQueryCursorInput
+}
+
+enum RewardPlanRelativeQuerySortDirection {
+  ASC
+  DESC
+}
+
+input RewardPlanRelativeQuerySortInput {
+  direction: RewardPlanRelativeQuerySortDirection!
+  field: String!
+}
+
+enum RewardPlanRelativeQueryValueType {
+  BOOLEAN
+  DATE
+  NULL
+  NUMBER
+  OBJECT_ID
+  STRING
+}
+
+type Transaction {
+  amountCents: Long!
+  category: TransactionCategory!
+  id: ObjectID!
+  status: TransactionStatus!
+  transactionDate: DateTime!
+}
+
+enum TransactionCategory {
+  ENTERTAINMENT
+  FOOD
+  GROCERY
+  TRAVEL
+}
+
+type TransactionList {
+  hasNextPage: Boolean!
+  primaryCursor: TransactionRelativeQueryCursor!
+  results: [Transaction!]!
+  secondaryCursor: TransactionRelativeQueryCursor
+}
+
+type TransactionRelativeQueryCursor {
+  cursor: String
+  field: String!
+  sort: TransactionRelativeQuerySortDirection!
+  type: TransactionRelativeQueryValueType!
+}
+
+input TransactionRelativeQueryCursorInput {
+  cursor: String
+  field: String!
+  sort: TransactionRelativeQuerySortDirection!
+  type: TransactionRelativeQueryValueType!
+}
+
+input TransactionRelativeQueryFilterInput {
+  field: String!
+  operator: TransactionRelativeQueryFilterOperator!
+  type: TransactionRelativeQueryValueType!
+  value: String
+  values: [String!]
+}
+
+enum TransactionRelativeQueryFilterOperator {
+  EQ
+  GT
+  GTE
+  IN
+  LT
+  LTE
+  NE
+  NIN
+}
+
+input TransactionRelativeQueryInput {
+  filter: [TransactionRelativeQueryFilterInput!]
+  limit: Int
+  primaryCursor: TransactionRelativeQueryCursorInput!
+  secondaryCursor: TransactionRelativeQueryCursorInput
+}
+
+enum TransactionRelativeQuerySortDirection {
+  ASC
+  DESC
+}
+
+input TransactionRelativeQuerySortInput {
+  direction: TransactionRelativeQuerySortDirection!
+  field: String!
+}
+
+enum TransactionRelativeQueryValueType {
+  BOOLEAN
+  DATE
+  NULL
+  NUMBER
+  OBJECT_ID
+  STRING
+}
+
+enum TransactionStatus {
+  FAILED
+  PENDING
+  SUCCESS
+}
+
+input UpdateUserContactInput {
+  email: String
+  phone: String
+  userId: ObjectID!
+}
+
+type UpdateUserContactResponse {
+  user: User!
+}
+
+input UpdateUserDetailsInput {
+  firstName: String
+  lastName: String
+  preferredName: String
+  province: Province
+  userId: ObjectID!
+}
+
+type UpdateUserDetailsResponse {
+  user: User!
+}
+
+type User {
+  dateOfBirth: Date!
+  email: String!
+  firstName: String!
+  id: ObjectID!
+  lastName: String!
+  phone: String!
+  preferredName: String
+  province: Province!
+  status: UserStatus!
+  transactions(input: TransactionRelativeQueryInput!): TransactionList!
+}
+
+type UserList {
+  hasNextPage: Boolean!
+  primaryCursor: UserRelativeQueryCursor
+  results: [User!]!
+  secondaryCursor: UserRelativeQueryCursor
+}
+
+type UserRelativeQueryCursor {
+  cursor: String
+  field: String!
+  sort: UserRelativeQuerySortDirection!
+  type: UserRelativeQueryValueType!
+}
+
+input UserRelativeQueryCursorInput {
+  cursor: String
+  field: String!
+  sort: UserRelativeQuerySortDirection!
+  type: UserRelativeQueryValueType!
+}
+
+input UserRelativeQueryFilterInput {
+  field: String!
+  operator: UserRelativeQueryFilterOperator!
+  type: UserRelativeQueryValueType!
+  value: String
+  values: [String!]
+}
+
+enum UserRelativeQueryFilterOperator {
+  EQ
+  GT
+  GTE
+  IN
+  LT
+  LTE
+  NE
+  NIN
+}
+
+input UserRelativeQueryInput {
+  filter: [UserRelativeQueryFilterInput!]
+  limit: Int
+  primaryCursor: UserRelativeQueryCursorInput!
+  secondaryCursor: UserRelativeQueryCursorInput
+}
+
+enum UserRelativeQuerySortDirection {
+  ASC
+  DESC
+}
+
+input UserRelativeQuerySortInput {
+  direction: UserRelativeQuerySortDirection!
+  field: String!
+}
+
+enum UserRelativeQueryValueType {
+  BOOLEAN
+  DATE
+  NULL
+  NUMBER
+  OBJECT_ID
+  STRING
+}
+
+enum UserStatus {
+  ACTIVE
+  FROZEN
+  INACTIVE
+  PENDING
+}

@@ -1,0 +1,51 @@
+#!/bin/sh
+
+branch="$(git rev-parse --abbrev-ref HEAD)"
+
+if [ "$branch" = "master" ]; then
+  echo "Oh no! Looks like you're trying to commit directly to master branch!"
+  echo "..."
+  echo "I'm sorry Dave, I'm afraid I can't do that."
+  exit 1
+fi
+
+. "$(dirname "$0")/_/husky.sh"
+
+
+# Generated files
+CONSUMER_GEN_FILE=/src/application/consumers/index.ts
+PROVIDER_GEN_FILE=/src/configuration/dependency-registries/providers.ts
+REPOSITORY_GEN_FILE=/src/configuration/dependency-registries/repositories.ts
+PRODUCERS_GEN_FILE=/src/configuration/dependency-registries/producers.ts
+TOKEN_GEN_FILE=/src/lib/*
+
+if ! git diff master...HEAD --quiet packages/user-service ;
+then
+npm run build:user-service
+npm run format:file:user-service -- ".$CONSUMER_GEN_FILE" ".$PROVIDER_GEN_FILE" ".$PRODUCERS_GEN_FILE" ".$REPOSITORY_GEN_FILE" ".$TOKEN_GEN_FILE"
+npm run precommit:user-service;
+fi;
+
+
+if ! git diff master...HEAD --quiet packages/transaction-service ;
+then
+npm run build:transaction-service
+npm run format:file:transaction-service -- ".$CONSUMER_GEN_FILE" ".$PROVIDER_GEN_FILE" ".$PRODUCERS_GEN_FILE" ".$REPOSITORY_GEN_FILE" ".$TOKEN_GEN_FILE"
+npm run precommit:transaction-service;
+fi
+
+if ! git diff master...HEAD --quiet packages/reward-service ;
+then
+npm run build:reward-service
+npm run format:file:reward-service -- ".$CONSUMER_GEN_FILE" ".$PROVIDER_GEN_FILE" ".$PRODUCERS_GEN_FILE" ".$REPOSITORY_GEN_FILE" ".$TOKEN_GEN_FILE"
+npm run precommit:reward-service;
+fi
+
+
+if ! git diff master...HEAD --quiet packages/admin-portal ;
+then
+npm run precommit:admin-portal;
+fi
+
+
+git add "*$CONSUMER_GEN_FILE" "*$PROVIDER_GEN_FILE" "*$PRODUCERS_GEN_FILE" "*$REPOSITORY_GEN_FILE"  "*$TOKEN_GEN_FILE"

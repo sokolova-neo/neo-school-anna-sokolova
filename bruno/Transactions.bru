@@ -1,0 +1,50 @@
+meta {
+  name: Transactions
+  type: graphql
+  seq: 7
+}
+
+post {
+  url: {{url}}
+  body: graphql
+  auth: none
+}
+
+body:graphql {
+  query UserTransactions(
+    $userId: ObjectID!
+    $query: TransactionRelativeQueryInput!
+  ) {
+    user(id: $userId) {
+      transactions(input: $query) {
+        results {
+          id
+          amountCents
+          status
+          category
+          transactionDate
+        }
+        hasNextPage
+        primaryCursor {
+          cursor
+        }
+        secondaryCursor {
+          cursor
+        }
+      }
+    }
+  }
+}
+
+body:graphql:vars {
+  {
+    "userId":"",
+    "query": {
+      "primaryCursor" : {
+        "field": "_id",
+        "sort": "ASC",
+        "type": "OBJECT_ID"
+      }
+    }
+  }
+}

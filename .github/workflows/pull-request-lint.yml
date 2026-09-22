@@ -1,0 +1,45 @@
+name: Pull Request Lint
+on:
+  pull_request:
+    types: ["opened", "edited", "reopened", "synchronize"]
+    branches:
+      - master
+jobs:
+  ticket-check:
+    name: 'Check for Shortcut or JIRA ticket'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Check for Shortcut ticket
+        id: shortcut
+        uses: neofinancial/ticket-check-action@v2
+        continue-on-error: true
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          ticketPrefix: 'SC-'
+          branchRegex: '^(SC)(-?)(?<ticketNumber>\d+)'
+          titleRegex: '^(SC)(-?)(?<ticketNumber>\d+)'
+          bodyRegex: '(SC)(-?)(?<ticketNumber>\d+)'
+          bodyURLRegex: 'http(s?):\/\/app.(shortcut.com)(\/neofinancial)(\/story)\/(?<ticketNumber>\d+)'
+          exemptUsers: 'dependabot'
+          quiet: 'true'
+      - name: Check for Jira ticket
+        id: jira
+        uses: neofinancial/ticket-check-action@v2
+        continue-on-error: true
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          branchRegex: '^(?<ticketNumber>\w+-?\d+)'
+          titleRegex: '^(?<ticketNumber>\w+-?\d+)'
+          bodyRegex: '^(?<ticketNumber>\w+-?\d+)'
+          bodyURLRegex: 'http(s?):\/\/neofinancial\.atlassian\.net(\/browse)\/(?<ticketNumber>\d+)'
+          ticketLink: 'https://neofinancial.atlassian.net/browse/%ticketNumber%'
+          exemptUsers: 'dependabot'
+      - name: Ticket was found
+        if: ${{ steps.shortcut.outcome == 'failure' && steps.jira.outcome == 'failure' }}
+        run: exit 1
+  checklist:
+    name: "Checklist Check"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: mheap/require-checklist-action@v2

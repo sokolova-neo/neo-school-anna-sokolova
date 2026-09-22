@@ -1,0 +1,16 @@
+build
+coverage
+
+config.local.*
+**/manual-scripts/*.json
+
+*.log
+.vscode
+.env.local
+.idea
+.DS_Store
+.eslintcache
+
+*.swp
+*.swo
+.cache/**/neo-framework.config.js

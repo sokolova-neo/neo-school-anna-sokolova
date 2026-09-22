@@ -1,0 +1,15 @@
+build
+coverage
+node_modules
+
+.vscode
+.idea
+
+*.log
+
+config.*.local.*
+config.local.*
+
+*-supergraph.generated.yaml
+.yalc/
+yalc.lock

@@ -1,0 +1,6 @@
+{
+  "aws_region": "ca-central-1",
+  "environment": "development",
+  "service_name": "user-service",
+  "service_task_role_arn": "arn:aws:iam::000000000001:role/user-service"
+}

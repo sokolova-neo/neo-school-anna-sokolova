@@ -1,0 +1,25 @@
+[
+  {
+    "key": "data",
+    "type": [
+      {
+        "key": "status",
+        "type": "ACTIVE | PENDING | FROZEN",
+        "isEnum": true,
+        "isOptional": false
+      },
+      {
+        "key": "id",
+        "type": "string",
+        "isOptional": false
+      },
+      {
+        "key": "replicationVersion",
+        "type": "number",
+        "isOptional": false
+      }
+    ],
+    "isArray": false,
+    "isOptional": false
+  }
+]

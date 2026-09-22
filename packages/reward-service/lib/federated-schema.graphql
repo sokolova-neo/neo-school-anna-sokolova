@@ -1,0 +1,140 @@
+directive @key(fields: _FieldSet!, resolvable: Boolean = true) on OBJECT | INTERFACE
+
+directive @requires(fields: _FieldSet!) on FIELD_DEFINITION
+
+directive @provides(fields: _FieldSet!) on FIELD_DEFINITION
+
+directive @external(reason: String) on OBJECT | FIELD_DEFINITION
+
+directive @tag(name: String!) on FIELD_DEFINITION | OBJECT | INTERFACE | UNION | ARGUMENT_DEFINITION | SCALAR | ENUM | ENUM_VALUE | INPUT_OBJECT | INPUT_FIELD_DEFINITION
+
+directive @extends on OBJECT | INTERFACE
+
+"""
+A date string, such as 2007-12-03, compliant with the `full-date` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar Date
+
+"""
+A date-time string at UTC, such as 2007-12-03T10:15:30Z, compliant with the `date-time` format outlined in section 5.6 of the RFC 3339 profile of the ISO 8601 standard for representation of dates and times using the Gregorian calendar.
+"""
+scalar DateTime
+
+"""BSON Object ID"""
+scalar ObjectID
+
+"""Long integer within JavaScript safe limits (2^53 - 1)"""
+scalar Long
+
+type RewardPlan {
+  id: ObjectID!
+  name: String!
+  rewardLevel: RewardLevel!
+  benefits: [PlanBenefit!]!
+}
+
+type PlanBenefit {
+  category: PlanBenefitTransactionCategory!
+  rewardBoost: Float!
+}
+
+enum RewardLevel {
+  BRONZE
+  SILVER
+  GOLD
+  PLATINUM
+  DIAMOND
+}
+
+enum PlanBenefitTransactionCategory {
+  GROCERY
+  ENTERTAINMENT
+  TRAVEL
+  FOOD
+}
+
+enum RewardPlanRelativeQueryValueType {
+  STRING
+  NUMBER
+  DATE
+  OBJECT_ID
+  BOOLEAN
+  NULL
+}
+
+enum RewardPlanRelativeQuerySortDirection {
+  ASC
+  DESC
+}
+
+enum RewardPlanRelativeQueryFilterOperator {
+  EQ
+  NE
+  LT
+  LTE
+  IN
+  NIN
+  GT
+  GTE
+}
+
+input RewardPlanRelativeQueryFilterInput {
+  field: String!
+  type: RewardPlanRelativeQueryValueType!
+  value: String
+  values: [String!]
+  operator: RewardPlanRelativeQueryFilterOperator!
+}
+
+input RewardPlanRelativeQuerySortInput {
+  field: String!
+  direction: RewardPlanRelativeQuerySortDirection!
+}
+
+input RewardPlanRelativeQueryCursorInput {
+  field: String!
+  type: RewardPlanRelativeQueryValueType!
+  sort: RewardPlanRelativeQuerySortDirection!
+  cursor: String
+}
+
+input RewardPlanRelativeQueryInput {
+  filter: [RewardPlanRelativeQueryFilterInput!]
+  primaryCursor: RewardPlanRelativeQueryCursorInput!
+  secondaryCursor: RewardPlanRelativeQueryCursorInput
+  limit: Int
+}
+
+type RewardPlanRelativeQueryCursor {
+  field: String!
+  type: RewardPlanRelativeQueryValueType!
+  sort: RewardPlanRelativeQuerySortDirection!
+  cursor: String
+}
+
+type RewardPlanList {
+  results: [RewardPlan!]!
+  hasNextPage: Boolean!
+  primaryCursor: RewardPlanRelativeQueryCursor
+  secondaryCursor: RewardPlanRelativeQueryCursor
+}
+
+type Query {
+  _entities(representations: [_Any!]!): [_Entity]!
+  _service: _Service!
+  rewardPlans(input: RewardPlanRelativeQueryInput!): RewardPlanList!
+}
+
+scalar _FieldSet
+
+scalar _Any
+
+type _Service {
+  sdl: String
+}
+
+union _Entity = User
+
+type User {
+  id: ObjectID!
+}

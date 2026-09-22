@@ -1,0 +1,6 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+#verify neo package
+npx neopkg verify
+
+npm run precommit

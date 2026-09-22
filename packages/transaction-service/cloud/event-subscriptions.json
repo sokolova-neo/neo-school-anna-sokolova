@@ -1,0 +1,11 @@
+{
+  "transaction_service_user_replication_event": {
+    "fifo_configuration": {
+      "enabled": true
+    },
+    "queue_name": "transaction-service-user-replication-event",
+    "sns_topic": {
+      "name": "user-service-user-replication-event"
+    }
+  }
+}
