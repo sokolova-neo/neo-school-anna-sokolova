@@ -1,5 +1,5 @@
 export interface RewardAccount {
-    id: string;
-    userId: string;
-    rewardPlanId: string;
-  }
+  id: string;
+  userId: string;
+  rewardPlanId: string;
+}
