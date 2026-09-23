@@ -2,6 +2,7 @@
 
 enum RepositoryTokens {
   ReplicatedUserRepository = 'ReplicatedUserRepository',
+  RewardAccountRepository = 'RewardAccountRepository',
   RewardPlanRepository = 'RewardPlanRepository',
 }
 
